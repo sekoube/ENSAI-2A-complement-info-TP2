@@ -1,9 +1,11 @@
 from typing import List, Optional
 from dao.db_connection import DBConnection
 from utils.singleton import Singleton
+from business_object.attack.attack_factory import AttackFactory 
+# On importe pas directement AbstractPokemon même si on veut à la fin un objet du type AbstrackPokemon car AbstrackPokemon est une classe abstraite et on ne peut pas instancier les classes abstraites 
 
 
-class TypeAttackDAO(metaclass=Singleton):
+class TypeAttackDAO(metaclass=Singleton):  # singleton pour préciser qu'on ouvre une seule instance pour toutes les requêtes instead of plusieurs ouvertures de la base de données 
     """
     Communicate with the attack_type table
     """
@@ -55,6 +57,28 @@ class TypeAttackDAO(metaclass=Singleton):
 
         if res:
             return res["id_attack_type"]
+
+#  Code 1 TP écrit
+        def find_attack_by_id(self, id: int) -> AttackFactory:
+            """
+            returns the attack with the given ID or None if the attack is not found
+            On retourne un objetc de type Attack ?
+            """
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT *                             "
+                        "  FROM tp.attack                     "
+                        " WHERE id_attack = %(attack_id)s     ",
+                        {"attack_id": id},
+                    )
+                    res = cursor.fetchone()
+
+            if res:
+                rendu = AttackFactory(res.id_attack_type, res.id_attack)  # ....
+                return rendu
+
+#  Code 1 TP écrit
 
 
 if __name__ == "__main__":
