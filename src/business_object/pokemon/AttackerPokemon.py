@@ -1,9 +1,9 @@
 from business_object.statistic import Statistic
-from business_object.Pokemon.AbstractPokemon import AbstractPokemon
+from business_object.pokemon.AbstractPokemon import AbstractPokemon
 
-Class AttackerPokemon(AbstractPokemon):
+class AttackerPokemon(AbstractPokemon):
 
- def _init_(
+    def _init_(
         self, stat_max=None, stat_current=None, level=0, name=None) -> None:
 
         # Calling the parent class constructor
